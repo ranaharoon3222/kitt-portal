@@ -30,7 +30,7 @@ export class AdminNavbarComponent implements OnInit {
   displayImage: string = "";
   accountList: Array<any> = [];
   accDisplayName: string = "";
-  userData : any;
+  userData: any;
 
   constructor(
     private _storage: StorageMap,
@@ -56,7 +56,10 @@ export class AdminNavbarComponent implements OnInit {
 
           this.accDisplayName = lastSelectedAccountObj?.name;
           // this.callMultipleMethods(this.accountList[0]);
-          this.setLastAccountId(lastSelectedAccountObj, this.userData?.contactId);
+          this.setLastAccountId(
+            lastSelectedAccountObj,
+            this.userData?.contactId
+          );
           this.selectAccount(lastSelectedAccountObj);
           this.getActivityTimeline(lastSelectedAccountObj?.recordID);
         }
@@ -115,8 +118,8 @@ export class AdminNavbarComponent implements OnInit {
     this.dropdownPopoverShow = false;
     let url =
       "RentalProperty/GetRentalPropertiesByAccountId/" + account.recordID;
-      this._storage.set('accountId', account.recordID).subscribe(()=>{});
-      // let url = "RentalProperty/GetRentalPropertiesByAccountId/9781c213-d1eb-ea11-a815-000d3acb4083";
+    this._storage.set("accountId", account.recordID).subscribe(() => {});
+    // let url = "RentalProperty/GetRentalPropertiesByAccountId/9781c213-d1eb-ea11-a815-000d3acb4083";
     // let url = "RentalProperty/GetRentalPropertiesByAccountId/488dbfd6-a357-eb11-a812-000d3a6b5ff4";
 
     this._commonService.getResult(url, "").subscribe(
@@ -155,11 +158,13 @@ export class AdminNavbarComponent implements OnInit {
   }
 
   setLastAccountId(account: any, contactId: string): void {
-    let url =
-      "Authenticate/UpdateRecentUsedAccountInContact/";
+    let url = "Authenticate/UpdateRecentUsedAccountInContact/";
     // let url = "RentalProperty/GetRentalPropertiesByAccountId/9781c213-d1eb-ea11-a815-000d3acb4083";
     // let url = "RentalProperty/GetRentalPropertiesByAccountId/488dbfd6-a357-eb11-a812-000d3a6b5ff4";
-    let lastUsedAccountDM = {lastUsedAccount: account.recordID, contactId: contactId }
+    let lastUsedAccountDM = {
+      lastUsedAccount: account.recordID,
+      contactId: contactId,
+    };
     this._commonService.post(url, lastUsedAccountDM).subscribe(
       (resp: any) => {
         this._spinner.hide();

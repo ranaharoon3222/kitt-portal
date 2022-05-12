@@ -1,22 +1,19 @@
-import { AuthService } from 'src/app/services/auth.service';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CommonService } from './services/common.service';
-import { AuthGuardService } from './services/auth-guard.service';
-import { ToastrModule } from 'ngx-toastr';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GoogleMapsModule } from '@angular/google-maps';
-import { CarouselModule } from 'ngx-owl-carousel-o';
-
+import { AuthService } from "src/app/services/auth.service";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { CommonService } from "./services/common.service";
+import { AuthGuardService } from "./services/auth-guard.service";
+import { ToastrModule } from "ngx-toastr";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { GoogleMapsModule } from "@angular/google-maps";
+import { CarouselModule } from "ngx-owl-carousel-o";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,9 +23,10 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     BrowserAnimationsModule,
     GoogleMapsModule,
     HttpClientModule,
-    CarouselModule
+    CarouselModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [CommonService, AuthService, AuthGuardService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
