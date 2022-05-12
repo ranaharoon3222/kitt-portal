@@ -1,0 +1,75 @@
+@import "./assets/css/style.css";
+@import "./assets/css/tailwind.css";
+.img-carousel-wrp .owl-nav>div {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: #f7f2f2bf !important;
+    width: 40px;
+    height: 40px;
+    display: block;
+    border-radius: 50px !important;
+}
+
+.img-carousel-wrp .owl-dots {
+    display: none;
+}
+
+.img-carousel-wrp .owl-nav>.owl-next {
+    left: auto !important;
+    right: 20px !important;
+}
+
+.img-carousel-wrp .owl-nav>div:after {
+    content: '<';
+    color: #000;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.img-carousel-wrp .owl-nav>.owl-next:after {
+    content: '>';
+}
+
+.owl-carousel .owl-item img {
+    padding: 5px;
+    cursor: pointer;
+    max-width: 122px;
+}
+
+.map-container {
+    height: 300px !important;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.model-comment {
+    z-index: 11;
+    background-color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 600px;
+}
+
+.Timeline-row {
+    background-color: #F9F9F9;
+}
+
+.Timeline-row:nth-child(odd) {
+    background-color: #E8E8F1;
+}
+.img-div {
+    cursor: pointer;
+}

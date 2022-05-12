@@ -1,0 +1,73 @@
+<!-- Spinner -->
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+  <br />
+  <p style="font-size: 20px; color: #05adad; font-weight:bold">Loading...</p>
+</ngx-spinner>
+
+<!-- Navbar -->
+<nav
+  class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
+  <div class="w-full mx-auto items-center flex justify-between md:flex-nowrap flex-wrap md:px-2 px-2">
+    <!-- Brand -->
+    <a class="text-blueGray-800 text-sm uppercase lg:inline-block font-semibold mr-2">
+      <button
+        class="cursor-pointer text-black opacity-50 px-3 py-1 text-xl leading-none bg-transparent rounded border border-4 border-blueGray-600"
+        type="button" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </a>
+
+
+    <!-- Form -->
+    <!-- <form
+      class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
+    >
+      <div class="relative flex w-full flex-wrap items-stretch">
+        <span
+          class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+          ><i class="fas fa-search"></i
+        ></span>
+        <input
+          type="text"
+          placeholder="Search here..."
+          class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
+        />
+      </div>
+    </form> -->
+
+    <!-- Notification -->
+    <span class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
+      <div class="relative flex w-full flex-wrap items-stretch">
+        <app-accounts-dropdown class="block"></app-accounts-dropdown>
+      </div>
+    </span>
+    <!-- User -->
+    <ul class="flex-col relative md:flex-row list-none items-center pr-4 hidden md:flex">
+      <app-user-dropdown class="block"></app-user-dropdown>
+    </ul>
+    <!-- Account List -->
+    <div class="uppercase lg:block">
+      <a class="text-blueGray-500 block cursor-pointer" (click)="toggleDropdown($event)" #btnDropdownRef>
+        <div class="justify-end flex">
+          <span class="mr-4 text-blueGray-600 font-bold">
+            {{accDisplayName}}
+            <i class="fas fa-chevron-down pl-3" style="color: darkslategray;"></i>
+          </span>
+        </div>
+      </a>
+      <div class="min-w-48 z-50 forTransform" (mouseleave)="toggleDropdown($event)"   #popoverDropdownRef>
+        <div class="bg-white text-base z-50 list-none rounded shadow-lg min-w-48"
+          [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'">
+          <div *ngFor="let acc of accountList; let i = index">
+            <a class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 cursor-pointer"
+              (click)="callMultipleMethods(acc)">
+              {{ acc?.name }}
+            </a>
+            <div class="h-0 my-2 border border-solid border-blueGray-100" *ngIf="i !== (accountList.length - 1)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

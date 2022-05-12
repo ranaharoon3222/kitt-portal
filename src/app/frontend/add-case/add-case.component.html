@@ -1,0 +1,85 @@
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+    <br />
+    <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<div class="w-full bg-white shadow-md ">
+    <div class="px-5 py-3 border-b-[1px] border-gray-300 ">
+        <h1 class="text-lg font-bold text-secondary">Open A New Case</h1>
+    </div>
+
+    <div class="px-5 py-5">
+        <form [formGroup]="caseForm">
+            <div class="pb-5 form-control">
+                <label class="label">
+                <span class="text-lg font-medium uppercase text-secondary label-text">Title <span class="text-red-500">*</span></span>
+            </label>
+                <input placeholder="Title" class="input input-bordered " type="text" [formControlName]="'title'">
+                <span class="text-red-500" *ngIf="formCtrl.title.touched && formCtrl.title.invalid ||formCtrl.title.errors && caseFormSubmitted">
+                            <small *ngIf="formCtrl.title.errors.required">Title is required.</small>
+                        </span>
+            </div>
+
+            <div class="flex flex-wrap">
+                <div class="w-full pb-5 md:w-1/2 md:pr-5 form-control">
+                    <label class="label">
+                    <span class="text-lg font-medium uppercase text-secondary label-text">Customer <span class="text-red-500">*</span></span>
+                </label>
+                    <input placeholder="Customer" class="input input-bordered " type="text" [formControlName]="'customerId'">
+                </div>
+                <div class="w-full pb-5 md:w-1/2 form-control">
+                    <label class="label">
+                    <span class="text-lg font-medium uppercase text-secondary label-text">Contact <span class="text-red-500">*</span></span>
+                </label>
+                    <input placeholder="Contact" class="input input-bordered " type="text" [formControlName]="'contactId'">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap">
+                <div class="w-full pb-5 md:w-1/2 md:pr-5 form-control">
+                    <label class="label" htmlFor="grid-password">
+                    <span class="text-lg font-medium uppercase text-secondary label-text">Case Type <span class="text-red-500">*</span></span>
+                </label>
+                    <select class="select select-bordered" id="" [formControlName]="'caseType'">
+                    <option disabled value="null">Select Case Type</option>
+                    <option *ngFor="let opt of caseOptionList" [value]="opt.value">{{opt?.label}}
+                    </option>
+                </select>
+                    <span class="text-red-500" *ngIf="formCtrl.caseType.touched && formCtrl.caseType.invalid || formCtrl.caseType.errors && caseFormSubmitted">
+                    <small *ngIf="formCtrl.caseType.errors.required">Case Type is required.</small>
+                </span>
+                </div>
+
+                <div class="w-full pb-5 md:w-1/2 form-control">
+                    <label class="label" htmlFor="grid-password">
+                    <span class="text-lg font-medium uppercase text-secondary label-text">Rental
+                        Property <span class="text-red-500">*</span></span>
+                </label>
+                    <select class="select select-bordered" id="" [formControlName]="'rentPropId'">
+                    <option disabled value="null">Select Rental Property</option>
+                    <option *ngFor="let prop of accountPropertyList" [value]="prop.recordID">{{prop?.name}}
+                    </option>
+                </select>
+                    <span class="text-red-500" *ngIf="formCtrl.rentPropId.touched && formCtrl.rentPropId.invalid || formCtrl.rentPropId.errors && caseFormSubmitted">
+                     <small *ngIf="formCtrl.rentPropId.errors.required">Rental Property is required.</small>
+                    </span>
+                </div>
+            </div>
+
+            <div class="pb-5 form-control">
+                <label class="label">
+                <span class="text-lg font-medium uppercase text-secondary label-text">Description</span>
+            </label>
+                <textarea placeholder="Description" class="h-36 textarea textarea-bordered" [formControlName]="'description'"></textarea>
+            </div>
+
+            <div class="py-4 text-right ">
+                <button type="button" [disabled]="caseForm.disabled" (click)="submitCase()" class="inline-block p-3 px-4 font-semibold text-center text-white border rounded-lg md:ml-auto bg-primary">Save
+                Changes</button>
+            </div>
+        </form>
+    </div>
+
+
+
+</div>

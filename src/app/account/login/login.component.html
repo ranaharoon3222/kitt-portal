@@ -1,0 +1,82 @@
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out" [fullScreen]="true">
+    <p style="font-size: 20px; color: #05adad; font-weight:bold">Loading...</p>
+</ngx-spinner>
+
+<div class="container mx-auto px-4 h-full">
+    <div class="flex content-center items-center justify-center h-full">
+        <div class="w-full xl:w-4/12 lg:w-4/12 md:w-4/12 px-4">
+            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+                <div class="rounded-t mb-0 px-6 py-6">
+                    <div class="mb-1 w-50 h-22">
+                        <img src="assets/images/KITT_logo_teal_solid@1X.png" class="mx-auto">
+                    </div>
+                    <div class="text-center mb-3">
+                        <h6 class="text-teal-500 text-2xl font-bold">Sign in</h6>
+                    </div>
+                </div>
+                <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+                    <form [formGroup]="signInForm">
+                        <div class="relative w-full mb-3">
+                            <label class="block uppercase text-teal-500 text-xs font-bold mb-2" htmlFor="grid-password"> Email </label>
+                            <input type="email" [formControlName]="'email'" placeholder="Email" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                            <span class="text-red-500" *ngIf="formCtrl.email.touched && formCtrl.email.invalid ||formCtrl.email.errors && signInFormSubmitted">
+                                <small *ngIf="formCtrl.email.errors.required">Email is required.</small>
+                                <small *ngIf="formCtrl.email.errors.pattern">Please enter a valid email address.</small>
+                              </span>
+                        </div>
+                        <div class="relative w-full mb-3">
+                            <label class="block uppercase text-teal-500 text-xs font-bold mb-2" htmlFor="grid-password"> Password </label>
+                            <div>
+                                <input type="password" [formControlName]="'password'" placeholder="Password" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                            </div>
+                            <div class="text-red-500" *ngIf="formCtrl.password.touched && formCtrl.password.invalid ||formCtrl.password.errors && signInFormSubmitted">
+                                <small *ngIf="formCtrl.password.errors.required">Password is required.</small>
+                                <small *ngIf="formCtrl.password.errors?.minlength">Password isn't long enough, a minimum of 8
+                                    characters required.</small>
+                                <small *ngIf="formCtrl.password.errors?.maxlength">Password, should not exceed 20
+                                    characters.</small>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="inline-flex items-center cursor-pointer">
+                                <a [routerLink]="['/account/forgot-password']" role="button" class="text-sm font-medium text-indigo-600 hover:underline"> Forgot password? </a>
+                            </div>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button type="button" class="bg-teal-500 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150" [disabled]="signInForm.disabled" (click)="signIn()">
+                                <span *ngIf="!signInForm.disabled">
+                                  Sign in
+                                </span>
+                                                </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="pb-6 absolute w-full bottom-0 bg-blueGray-800">
+    <div class="container mx-auto px-4">
+        <hr class="mb-6 border-b-1 border-blueGray-600">
+        <div class="flex items-center md:justify-between justify-center">
+            <div class="w-full xl:w-4/12 lg:w-4/12 md:w-4/12 px-4">
+                <div class="text-sm text-white font-semibold py-1 text-center md:text-left">
+                    Copyright © 2021
+                    <a class="text-white hover:text-blueGray-300 text-sm font-semibold py-1">
+                             KITT 
+                            </a>
+                </div>
+            </div>
+            <div class="w-full xl:w-8/12 lg:w-8/12 md:w-8/12 px-4">
+                <ul class="flex list-none md:justify-end justify-center">
+                    <li>
+                        <a class="text-white hover:text-blueGray-300 text-sm font-semibold block py-1 px-3"> 
+                                                About Us 
+                                            </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

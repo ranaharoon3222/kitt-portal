@@ -1,0 +1,191 @@
+<!-- Spinner -->
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+  <br />
+  <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<div class="relative min-w-0 break-words w-full border-0 flex-auto">
+  <div class="flex flex-wrap">
+    <div class="w-full mb-12">
+      <div class="
+          relative
+          flex flex-col
+          bg-white
+          min-w-0
+          break-words
+          rounded-lg
+          bg-transparent
+          m-4
+        ">
+        <div class="rounded-t mb-0 px-4 pt-4 pb-2 bg-transparent">
+          <!-- <div class="flex flex-wrap items-center">
+            <div class="relative w-full max-w-full flex-grow flex-1">
+              <h2 class="text-blueGray-500 text-2xl font-bold">
+                Support Tickets
+              </h2>
+              <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+            </div>
+          </div> -->
+          <div class="flex flex-wrap items-center">
+            <div class="relative w-full max-w-full flex-grow flex-1">
+              <h2 class="text-blueGray-400 text-2xl font-bold">Support Ticket</h2>
+            </div>
+            <div class="float-right">
+              <div class="flex float-right mr-4">
+                <div class="flex mr-4">
+                  <div>
+                    <select name="StatusType"
+                      class="border-1 px-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded-none text-md shadow w-full"
+                      #statusRef (change)=applyStatusTypeFilter(statusRef.value)>
+                      <option *ngFor="let opt of statusList" [value]="opt.value">{{opt?.label}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="bg-red-400" (click)="clearFilters()">
+                    <button type="button" class="font-bold text-white p-2 rounded-none">x</button>
+                  </div>
+                </div>
+                <div class="flex mr-4">
+                  <div>
+                    <select name="CaseType"
+                      class="border-1 px-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded-none text-md shadow w-full"
+                      #caseRef (change)=applyCaseTypeFilter(caseRef.value)>
+                      <option *ngFor="let opt of caseOptionList" [value]="opt.value">{{opt?.label}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="bg-red-400" (click)="clearFilters()">
+                    <button type="button" class="font-bold text-white p-2 rounded-none">x</button>
+                  </div>
+                </div>
+                <div
+                  class="text-white px-3 pt-1 mr-2 bg-orange-500 text-lg font-bold float-right rounded-lg cursor-pointer"
+                  (click)="addCase()" title="Add Case">
+                  <button>
+                    <span class="mr-2">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text-xl font-bold">
+                      Add Case
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative w-full max-w-full flex-grow flex-1">
+            <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+          </div>
+        </div>
+        <div class="flex inline-block shadow-lg rounded min-h-screen-75 max-h-screen-75">
+          <div class="pl-4 pr-2 pt-1 pb-4 flex-auto overflow-y-auto ml-4">
+            <div class="relative">
+              <div *ngFor="let ticket of ticketsList; let i = index">
+                <div class="w-full pl-4 pr-4">
+                  <button class="accordion text-blueGray-700 font-bold" (click)="toggleAccordian($event, i)">
+                    <span class="mr-4">
+                      <i class="fas fa-chevron-right pr-4 text-xl" *ngIf="!ticket.isActive"
+                        style="color: darkslategray"></i>
+                      <i class="fas fa-chevron-down pr-4 text-xl" *ngIf="ticket.isActive"
+                        style="color: darkslategray"></i>
+                    </span>
+                    <span class="pl-4 text-blueGray-700 text-xl font-bold">
+                      {{ ticket?.caseTitle }}
+                    </span>
+                    <span class="float-right pr-4">
+                      <!-- Status Active -->
+                      <div class="
+                          rounded-full
+                          py-1
+                          px-3
+                          bg-lightBlue-200
+                          text-indigo-600 text-normal
+                          font-semibold
+                          text-right
+                        " *ngIf="ticket?.status === 0">
+                        {{ ticket?.statusLabel }}
+                      </div>
+                      <!-- Status Resolved -->
+                      <div class="
+                          rounded-full
+                          py-1
+                          px-3
+                          bg-emerald-200
+                          text-blueGray-800 text-normal
+                          font-semibold
+                          text-right
+                        " *ngIf="ticket?.status === 1">
+                        {{ ticket?.statusLabel }}
+                      </div>
+                      <!-- Status Cancelled -->
+                      <div class="
+                          rounded-full
+                          py-1
+                          px-3
+                          bg-red-200
+                          text-red-500 text-normal
+                          font-semibold
+                          text-right
+                        " *ngIf="ticket?.status === 2">
+                        {{ ticket?.statusLabel }}
+                      </div>
+                      <div class="text-sm text-blueGray-400 font-semibold" *ngIf="ticket.resolvedOn !== null">
+                        on {{ ticket?.resolvedOn | date: "longDate" }}
+                      </div>
+                    </span>
+                  </button>
+                  <div id="{{ i }}" class="panel flex mb-4" hide="!ticket.isActive">
+                    <div class="mt-1 xl:w-9/12 lg:w-9/12 md:w-9/12 break-words" style="padding-left: 72px">
+                      <div class="text-blueGray-500 text-lg font-medium">
+                        {{ ticket?.description }}
+                      </div>
+                      <div class="flex">
+                        <div class="text-md text-blueGray-400 font-medium mr-4" *ngIf="ticket?.caseTypeLabel === null">
+                          <span class="text-blueGray-600 font-semibold">Case Type : </span>-
+                        </div>
+                        <div class="text-md text-blueGray-400 font-medium mr-4" *ngIf="ticket?.caseTypeLabel !== null">
+                          <span class="text-blueGray-600 font-semibold">Case Type : </span>{{ ticket?.caseTypeLabel }}
+                        </div>
+                        <div class="text-md text-blueGray-400 font-normal mx-4">
+                          <span class="text-blueGray-600 font-semibold">Created On : </span>{{ ticket?.createdOn | date:
+                          "longDate" }}
+                        </div>
+                        <div>
+                          <a id="details" class="
+                              ml-4
+                              cursor-pointer
+                              text-indigo-600
+                              
+                            " (click)="SupportTicketDetails(ticket?.recordId)">Details...</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="xl:w-3/12 lg:w-3/12 md:w-3/12 relative text-right mr-4">
+                      <!-- Priority High -->
+                      <div class="text-blueGray-500 text-md font-semibold pr-4" *ngIf="ticket?.priority === 1">
+                        <i class="fas fa-arrow-up"></i>
+                        {{ ticket?.priorityLabel }}
+                      </div>
+                      <!-- Priority Normal -->
+                      <div class="text-blueGray-500 text-md font-semibold pr-4" *ngIf="ticket?.priority === 2">
+                        - {{ ticket?.priorityLabel }}
+                      </div>
+                      <!-- Priority Low -->
+                      <div class="text-blueGray-500 text-md font-semibold pr-4" *ngIf="ticket?.priority === 3">
+                        <i class="fas fa-arrow-down"></i>
+                        {{ ticket?.priorityLabel }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center" *ngIf="ticketsList?.length === 0">
+                <span class="text-blueGray-700 font-xl">No records found</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

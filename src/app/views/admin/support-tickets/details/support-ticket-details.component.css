@@ -1,0 +1,8 @@
+.limitTextHeight {
+    height: 20px;
+    overflow: hidden;
+}
+
+#details:hover {
+    text-decoration: underline;
+  }

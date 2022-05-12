@@ -1,0 +1,70 @@
+.borderBottom{
+    border-bottom: 2px solid teal;
+}
+
+.accordion {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+  }
+  
+  .active,
+  .accordion:hover {
+    background-color:  whitesmoke;
+  }
+  
+  .accordion:after {
+    content: '\002B';
+    color: whitesmoke;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active:after {
+    content: '\2212';
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+  overflow: hidden;
+
+    transition: max-height 0.2s ease-out;
+  }
+
+  @media (min-width: 768px) {
+    .md\:h-380{
+      height: 380px;
+    }
+
+    .md\:h-600{
+      height: 600px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lg\:h-500{
+      height: 500px;
+    }
+
+    .lg\:h-900{
+      height: 900px;
+    }
+  }
+
+  @media (min-width: 1280px){
+    .xl\:h-500{
+      height: 500px;
+    }
+
+    .xl\:h-900{
+      height: 900px;
+    }
+  }

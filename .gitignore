@@ -1,0 +1,14 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.json
+/node_modules/.bin/acorn
+/.vs/ClientApp/v16/.suo
+/.vs/ClientApp/config/.config
+/node_modules/.bin
+/node_modules/.cli-ngcc
+/node_modules
+/.vs/slnx.sqlite-journal
+/.vs/slnx.sqlite
+/dist

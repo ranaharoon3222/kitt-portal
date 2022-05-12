@@ -1,0 +1,176 @@
+<!-- Spinner -->
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+    <br />
+    <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<div class="w-full my-4 xl:my-0">
+    <div class="h-full overflow-hidden bg-white rounded-lg shadow-md ">
+        <div class="border-b-[1px] border-gray-300 flex items-center justify-between">
+            <h1 class="px-3 py-5 text-lg font-bold text-secondary">Support Ticket
+            </h1>
+            <div>
+                <span class="px-4 py-2 mr-3 text-sm text-blue-800 bg-blue-200 rounded-full"
+                    *ngIf="caseObj?.status === 0">{{ caseObj?.statusLabel }}</span>
+                <span class="px-4 py-2 mr-3 text-sm text-green-800 bg-green-200 rounded-full"
+                    *ngIf="caseObj?.status === 1">{{ caseObj?.statusLabel }}</span>
+                <span class="px-4 py-2 mr-3 text-sm text-red-800 bg-red-200 rounded-full"
+                    *ngIf="caseObj?.status === 2">{{ caseObj?.statusLabel }}</span>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap px-4 overflow-hidden xl:h-full ">
+
+            <div
+                class="w-full overflow-hidden border-b-[1px] pb-16 xl:border-b-0 xl:border-r-[1px] border-gray-300 xl:w-2/3">
+                <!-- Column Content -->
+                <div>
+                    <h5 class="pt-6 font-bold text-secondary">Case Title</h5>
+                    <h3 class="font-bold text-secondary-focus ">{{ caseObj?.caseTitle }}</h3>
+
+                    <h3 class="mt-5 text-base font-bold text-secondary">Summary</h3>
+                    <p class="text-sm text-secondary  max-w-[600px] ">{{ caseObj?.description }}</p>
+                </div>
+
+
+            </div>
+
+            <div class="w-full px-0 overflow-hidden xl:px-4 xl:w-1/3">
+                <!-- Column Content -->
+                <div>
+                    <h5 class="pt-6 font-bold text-secondary">Property</h5>
+                    <h3 class="font-bold text-secondary-focus ">{{ caseObj?.rentalPropToCase?.name }}</h3>
+                </div>
+                <div>
+                    <h5 class="pt-6 font-bold text-secondary">Case Created</h5>
+                    <h3 class="font-bold text-secondary-focus ">{{ caseObj?.createdOn | date:'dd/MM/YYYY' }}</h3>
+                </div>
+                <div>
+                    <h5 class="pt-6 font-bold text-secondary">Last Updated</h5>
+                    <h3 class="font-bold text-secondary-focus ">{{ caseObj?.modifiedOn | date:'dd/MM/YYYY' }}</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="w-full bg-white shadow-md mt-14">
+    <div class="flex flex-wrap items-center px-5 py-3 border-b-[1px] border-gray-300 ">
+        <div class="w-[55%]">
+            <h1 class="text-lg font-bold text-secondary">Timeline</h1>
+        </div>
+        <div class="w-[45%] font-bold text-secondary flex justify-end">
+            <!-- <div class="w-full dropdown dropdown-end dropdown-hover max-w-[145px]">
+                <div tabindex="0" class="px-2 py-1 border-2 border-accent-focus min-w-[110px] text-center flex items-center justify-center">
+                    <span class="mr-1 text-lg material-icons">
+                        filter_alt
+                    </span> Filter <span class="w-5 h-5 ml-1 text-xs rounded-md text-secondary bg-accent-focus leading-[1.55] ">3</span>
+                    <span class="ml-1 material-icons">expand_more</span>
+                </div>
+                <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-52">
+                    <li>
+                        <a>Item 1</a>
+                    </li>
+                </ul>
+            </div> -->
+
+            <div>
+                <a (click)="showModal()"
+                    class="bg-[#E37222] text-white h-full flex items-center rounded-md ml-2 sm:ml-10 px-4 add-comment-btn">
+                    Add Comment </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- start messsage -->
+    <div class="Timeline-row grid sm:grid-cols-4 gap-4 py-10 overflow-hidden auto-rows-auto  px-5 md:px-20"
+        *ngFor="let comm of commentList; let i = index">
+        <div class=" text-secondary">
+            <span class="material-icons text-secondary" *ngIf="comm?.activityType ==='adx_portalcomment'"> comment
+            </span>
+            <span class="material-icons text-secondary" *ngIf="comm?.activityType ==='email'"> mail </span>
+            <span class="material-icons text-secondary" *ngIf="comm?.activityType ==='task'"> error </span>
+            <span class="material-icons text-secondary" *ngIf="comm?.activityType ==='phonecall'"> phone </span>
+            <p>{{comm?.dateCreated | timeAgoPipe}}</p>
+            <p>Modified on {{comm?.modifiedOn | date:'dd/MM/YYYY hh:mm aaa'}}</p>
+        </div>
+        <div class="col-span-3 text-secondary">
+            <div class="flex items-center mb-3" *ngIf="comm?.activityType !=='task'">
+                <p>{{comm?.from?.name}}</p> <span class="mx-3 text-xl material-icons">east</span>
+                <p>{{comm?.to?.name}}</p>
+            </div>
+            <div class="mb-2 text-black">
+                {{comm?.subject}}
+            </div>
+            <div class="mt-2 text-black" [innerHtml]="comm?.description" *ngIf="comm?.activityType ==='email'">
+            </div>
+            <p class="mt-2 text-sm" *ngIf="comm?.activityType ==='task'"> {{comm?.description}}</p>
+            <p class="mt-2 text-sm">{{comm?.description}}</p>
+            <!-- <div class="mt-2 text-black" *ngIf="comm?.activityType !=='email'">
+                Created By -
+                <p class="mt-2 text-sm"> {{comm?.createdBy?.name}}</p>
+            </div> -->
+        </div>
+    </div>
+    <div class="text-center" style="padding: 75px;" *ngIf="commentList?.length === 0">
+        <span class="text-blueGray-700 font-xl">No records found</span>
+    </div>
+    <!-- end message -->
+</div>
+
+
+
+<div class="bg-white max-w-[600px] mx-auto rounded-md overflow-hidden center-model " *ngIf="showModalFlag">
+    <div class="overlay" (click)="modalCloseButton()"></div>
+    <div class="model-comment">
+        <div id="modal-header" class="flex justify-between px-6 py-4 bg-gray-300">
+            <h1 class="text-2xl">Write a comment </h1>
+            <div id="close"> <span class="material-icons" (click)="modalCloseButton()" style="cursor: pointer;"> close
+                </span> </div>
+        </div>
+
+        <div class="px-4 py-6" id="modal-body">
+            <form [formGroup]="commentsForm">
+                <div class="pb-5 form-control">
+                    <label class="label">
+                        <span class="text-lg font-medium uppercase label-text text-secondary">Subject <span
+                                class="text-red-500">*</span></span>
+                    </label>
+                    <input placeholder="Subject" class="input input-bordered " type="text"
+                        [formControlName]="'subject'">
+                    <span class="text-red-500"
+                        *ngIf="formCtrl.subject.touched && formCtrl.subject.invalid ||formCtrl.subject.errors && commentsFormSubmitted">
+                        <small *ngIf="formCtrl.subject.errors.required">Subject is Required</small>
+                    </span>
+                </div>
+
+                <div class="pb-5 form-control">
+                    <label class="label">
+                        <span class="text-lg font-medium uppercase label-text text-secondary">Summary <span
+                                class="text-red-500">*</span></span>
+                    </label>
+                    <textarea placeholder="Summary" class="h-24 textarea textarea-bordered"
+                        [formControlName]="'description'"></textarea>
+                    <span class="text-red-500"
+                        *ngIf="formCtrl.description.touched && formCtrl.description.invalid ||formCtrl.description.errors && commentsFormSubmitted">
+                        <small *ngIf="formCtrl.description.errors.required">Description is required.</small>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+        <div id="modal-footer" class="px-6 py-4 text-right bg-gray-300">
+            <a (click)="modalCloseButton()"
+                class="inline-block p-3 px-6 font-semibold text-center rounded-lg text-primary md:ml-auto"
+                style="cursor: pointer;">Close</a>
+            <button type="button" (click)="submitComment()"
+                class="inline-block p-3 px-4 font-semibold text-center text-white border rounded-lg md:ml-auto bg-primary"
+                style="cursor: pointer;">Save
+                Changes</button>
+        </div>
+    </div>
+
+</div>

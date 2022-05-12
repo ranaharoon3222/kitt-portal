@@ -1,0 +1,75 @@
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+    <br />
+    <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<div class="w-full bg-white shadow-md ">
+    <div class="flex flex-wrap items-center px-5 py-3 border-b-[1px] border-gray-300 ">
+        <div class="w-[55%]">
+            <h1 class="text-lg font-bold text-secondary">Support Tickets</h1>
+        </div>
+        <div class="md:w-[45%] w-full font-bold text-secondary flex mt-3 md:mt-0 md:justify-end">
+            <!-- <div class="w-full dropdown dropdown-end dropdown-hover max-w-[145px]">
+                <div tabindex="0" class="px-2 py-1 border-2 border-accent-focus min-w-[110px] text-center flex items-center justify-center">
+                    <span class="mr-1 text-lg material-icons">
+                        filter_alt
+                    </span> Filter
+                    <span class="ml-1 material-icons">expand_more</span>
+                </div>
+                <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-52" (change)=applyStatusTypeFilter(statusRef.value)>
+                    <li *ngFor="let opt of statusList" [value]="opt.value">
+                        <a>{{opt?.label}}</a>
+                    </li>
+                </ul>
+            </div> -->
+            <select name="StatusType" class="px-2 py-1 border-2 border-accent-focus min-w-[110px] flex items-center justify-center" #statusRef (change)=applyStatusTypeFilter(statusRef.value)>
+                      <option *ngFor="let opt of statusList" [value]="opt.value">{{opt?.label}}
+                      </option>
+                    </select>
+            <a (click)="addCase()" class="bg-[#E37222] text-white h-full py-2  font-medium  flex items-center rounded-md ml-2 sm:ml-10 px-4" style="cursor: pointer;">
+                Add Case
+            </a>
+        </div>
+    </div>
+
+    <div class="px-6 py-6 support-ticket">
+        <!-- start acordian -->
+        <div class="border-b-2 border-gray-200 collapse collapse-arrow" *ngFor="let ticket of ticketsList; let i = index">
+            <input type="checkbox" class="z-10" (click)="toggleAccordian($event, i)">
+            <div class="md:text-xl  !bg-white text-secondary-focus  collapse-title md:pl-20 pl-10 font-bold flex justify-between pr-0">
+                <div class="flex flex-wrap items-center">{{ ticket?.caseTitle }} </div>
+                <span class="px-4 py-2 mr-3 text-sm text-blue-800 bg-blue-200 rounded-full" *ngIf="ticket?.status === 0">{{ ticket?.statusLabel }}</span>
+                <span class="px-4 py-2 mr-3 text-sm text-green-800 bg-green-200 rounded-full" *ngIf="ticket?.status === 1">{{ ticket?.statusLabel }}</span>
+                <span class="px-4 py-2 mr-3 text-sm text-red-800 bg-red-200 rounded-full" *ngIf="ticket?.status === 2">{{ ticket?.statusLabel }}</span>
+            </div>
+            <div class="!bg-white collapse-content md:pl-20 pr-0 ">
+                <div class="w-full ">
+                    <div class="pb-4">
+                        <h3 class="inline-block text-base font-medium">Case Type : <span class="text-base text-secondary">{{ ticket?.caseTypeLabel }}</span></h3>
+                        <h3 class="inline-block text-base font-medium md:ml-8">Created On : <span class="text-base text-secondary">{{ ticket?.createdOn | date:
+                            "longDate" }}</span></h3>
+                        <span class="inline-block text-base font-medium md:ml-8" *ngIf="ticket?.priority === 1">
+                            <span class="material-icons">
+                                arrow_upward
+                                </span> {{ ticket?.priorityLabel }}
+                        </span>
+                        <span class="inline-block text-base font-medium md:ml-8" *ngIf="ticket?.priority === 2">
+                                - {{ ticket?.priorityLabel }}
+                            </span>
+                        <span class="text-blueGray-500 text-md font-semibold pr-4" *ngIf="ticket?.priority === 3">
+                            <span class="material-icons">
+                                arrow_downward
+                                </span> {{ ticket?.priorityLabel }}
+                        </span>
+                    </div>
+                    <h3 class="text-base font-bold text-secondary">Description</h3>
+                    <p class="text-sm text-secondary  max-w-[600px]">{{ ticket?.description }}</p>
+                    <a (click)="SupportTicketDetails(ticket?.recordId)" style="cursor: pointer;" class="block max-w-[8rem] mt-4 md:mt-0 p-3 px-1 font-bold text-center border rounded-lg md:ml-auto border-primary text-primary">View
+                        Detail</a>
+                </div>
+            </div>
+        </div>
+        <!-- end acordian -->
+    </div>
+
+</div>

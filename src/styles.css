@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* regular style toast */
+@import "~ngx-toastr/toastr";
+
+body {
+  font-family: "Poppins", sans-serif !important;
+}
+html {
+  font-size: 80% !important;
+}
+
+.collapse-title:after {
+  content: "\e409" !important;
+  font-family: "Material Icons";
+  font-size: 24px;
+  transform: rotate(0) !important;
+  box-shadow: none !important;
+  left: 0;
+  margin-top: -4px;
+}
+
+arrow:focus:not(.collapse-close) .collapse-title:after,
+.collapse-arrow:not(.collapse-close)
+  input[type="checkbox"]:checked
+  ~ .collapse-title:after,
+.collapse-open.collapse-arrow .collapse-title:after {
+  content: "\e5cf" !important;
+}
+
+.model-comment {
+  z-index: 11;
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #00000080;
+  z-index: 10;
+}
+
+@media all and (max-width: 980px) {
+  .collapse-title:after {
+    font-size: 19px;
+    top: 14px !important;
+  }
+}
+
+.menu-drawer.translate-x-0 {
+  --tw-translate-x: 0px !important;
+}

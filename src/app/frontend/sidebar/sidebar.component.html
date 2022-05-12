@@ -1,0 +1,110 @@
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out" [fullScreen]="true">
+    <p style="font-size: 20px; color: #05adad; font-weight:bold">Loading...</p>
+</ngx-spinner>
+
+<div class="mb-2 navbar rounded-box text-secondary">
+    <div class="flex flex-none xl:hidden">
+        <button class="btn btn-square" id="toggle-drawer" (click)="openmobilemenu()">
+            <span class="material-icons"> menu </span>
+        </button>
+    </div>
+    <div class="flex-1 px-2 mx-2 xl:flex">
+        <img class="xl:hidden" src="./assets//images/KITT_logo_teal_solid@1X.png" alt="" />
+    </div>
+
+    <div class="flex-none">
+        <div class="dropdown dropdown-end">
+            <button class="relative mr-4">
+                <span class="text-3xl material-icons"> notifications </span>
+                <!-- <span
+                    class="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">2</span> -->
+            </button>
+            <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-74">
+                <li *ngFor="let item of notification">
+                    <a *ngIf="item.alertOwnersPortal">{{item.title}} {{item.activityTypeLabel}} {{item.activityDate | date: 'fullDate'}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex-none">
+        <div class="dropdown dropdown-end dropdown-hover">
+            <div class="flex items-center justify-center avatar">
+                <div class="w-10 h-10 m-1 rounded-full shadow-lg">
+                    <img src="assets/images/no-image-found.png" />
+                </div>
+                <span class="material-icons"> expand_more </span>
+            </div>
+            <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-52">
+                <li>
+                    <a [routerLink]="['/account/change-password']">Change Password</a>
+                </li>
+                <li>
+                    <a (click)="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex-none hidden ml-6 xl:block">
+        <div class="dropdown dropdown-end dropdown-hover">
+            <div tabindex="0" class="flex items-center justify-center m-1 mr-6 font-bold text-secondary-focus">
+                {{accDisplayName}}
+                <span class="ml-2 material-icons"> expand_more </span>
+            </div>
+            <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-56">
+                <li *ngFor="let acc of accountList; let i = index">
+                    <a (click)="selectedaccount(acc)">{{ acc?.name }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="flex flex-wrap w-full md:flex-nowrap">
+    <!-- Drawer Side Menu -->
+    <div [class.translate-x-0]="ismenu" class="fixed z-10 top-0 left-0 w-64 h-screen p-3 m-0 transition-all -translate-x-full bg-white shadow-md xl:bg-accent xl:p-0 xl:shadow-none xl-p-0 xl:m-4 menu-drawer xl:relative xl:transform-none" id="drawer-content">
+        <div class="fixed top-0 w-56 h-screen">
+            <span (click)="closemobilemenu()" id="close-drawer" class="absolute flex items-center justify-center rounded-full xl:hidden ring-secondary top-3 left-7 w-7 h-7 ring-4 material-icons">
+                close
+            </span>
+            <div class="pt-3">
+                <a href="index.html"> <img src="./assets/images/KITT_logo_teal_solid@1X.png" alt="" /> </a>
+            </div>
+            <h5 class="mt-3 mb-4 font-bold text-secondary">Main Menu</h5>
+            <ul class="p-0">
+                <li class="flex items-center mb-4">
+                    <span class="material-icons text-secondary"> speed </span>
+                    <a routerLinkActive="active" [routerLink]="['/frontend/dashboard']"> <span class="ml-3 text-base font-semibold text-secondary">Dashboard</span> </a>
+                </li>
+                <!-- <li class="flex items-center mb-4">
+                    <span class="material-icons text-secondary"> house </span>
+                    <a routerLinkActive="active" [routerLink]="['/frontend/properties']"> <span class="ml-3 text-base font-semibold text-secondary">Properties</span> </a>
+                </li> -->
+                <li class="flex items-center mb-4">
+                    <span class="material-icons text-secondary">
+                        <span class="material-icons"> monetization_on </span>
+                    </span>
+                    <a routerLinkActive="active" [routerLink]="['/frontend/payments']"> <span class="ml-3 text-base font-semibold text-secondary">Payments</span></a>
+                </li>
+                <li class="flex items-center mb-4">
+                    <span class="material-icons text-secondary"> question_answer </span>
+                    <a routerLinkActive="active" [routerLink]="['/frontend/support-tickets']"> <span class="ml-3 text-base font-semibold text-secondary">Support Tickets</span></a>
+                </li>
+                <!-- <li class="flex items-center mb-4">
+                    <span class="material-icons text-secondary"> email </span>
+                    <a href=""> <span class="ml-3 text-base font-semibold text-secondary">Requests</span> </a>
+                </li> -->
+            </ul>
+            <div class="absolute left-3 bottom-4">
+                <a href="https://kitt.co.nz/terms-of-service/" target="_blank"> <span class="block mt-2 font-semibold text-secondary">Terms of Service</span></a>
+                <a href="https://kitt.co.nz/privacy-policy/" target="_blank"> <span class="block mt-2 font-semibold text-secondary">Privacy Policy</span></a>
+                <a href=""> <span class="block mt-2 font-semibold text-secondary">© KITT Technologies 2021</span></a>
+            </div>
+        </div>
+    </div>
+    <div class="w-full mx-5">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+<!-- Drawer Side Menu -->

@@ -1,0 +1,603 @@
+<!-- Spinner -->
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+  <br />
+  <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+<div class="relative min-w-0 break-words w-full border-0 flex-auto">
+  <div class="flex flex-wrap">
+    <ul class="
+        flex
+        mb-0
+        list-none
+        flex-wrap
+        pt-3
+        pb-4
+        flex-row
+        bg-transparent
+        cursor-pointer
+      " style="margin-left: 1rem">
+      <li class="-mb-px mr-2 last:mr-0 px-4 flex-auto text-center">
+        <a class="text-lg font-bold px-5 py-3 rounded-none block leading-normal" (click)="toggleTabs(1)" [ngClass]="{
+            'text-blueGray-400 bg-transparent': openTab !== 1,
+            'text-teal-600 bg-transparent borderBottom': openTab === 1
+          }">
+          Overview
+        </a>
+      </li>
+      <li class="-mb-px mr-2 last:mr-0 px-4 flex-auto text-center">
+        <a class="text-lg font-bold px-5 py-3 rounded-none block leading-normal" (click)="toggleTabs(2)" [ngClass]="{
+            'text-blueGray-400 bg-transparent': openTab !== 2,
+            'text-teal-600 bg-transparent borderBottom': openTab === 2
+          }">
+          Tenancies
+        </a>
+      </li>
+      <li class="-mb-px mr-2 last:mr-0 px-4 flex-auto text-center">
+        <a class="text-lg font-bold px-5 py-3 rounded-none block leading-normal" (click)="toggleTabs(3)" [ngClass]="{
+            'text-blueGray-400 bg-transparent': openTab !== 3,
+            'text-teal-600 bg-transparent borderBottom': openTab === 3
+          }">
+          Inspections
+        </a>
+      </li>
+      <li class="-mb-px mr-2 last:mr-0 px-4 flex-auto text-center">
+        <a class="text-lg font-bold px-5 py-3 rounded-none block leading-normal" (click)="toggleTabs(4)" [ngClass]="{
+            'text-blueGray-400 bg-transparent': openTab !== 4,
+            'text-teal-600 bg-transparent borderBottom': openTab === 4
+          }">
+          Activity
+        </a>
+      </li>
+    </ul>
+    <div class="w-full mb-12">
+      <div class="
+          relative
+          flex flex-col
+          min-w-0
+          break-words
+          rounded-lg
+          bg-transparent
+          mb-4
+        ">
+        <div class="px-2 py-2 flex-auto">
+          <div class="tab-content tab-space">
+            <div [ngClass]="{ hidden: openTab !== 1, flex: openTab === 1 }">
+              <div class="
+                  xl:w-8/12
+                  lg:w-8/12
+                  md:w-8/12
+                  flex
+                  inline-block
+                  bg-white
+                  shadow-lg
+                  rounded
+                  min-h-screen-85
+                  max-h-screen-85
+                ">
+                <div class="p-4 border-r-3 border-solid border-blueGray-700 w-1/2">
+                  <div class="pb-2" *ngIf="propertyPhotoList.length !== 0" >
+                    <img src="{{ displayImg }}" alt="" width="100%" style="height: 50%" />
+                    <carousel [height]="cellHeight" [cellWidth]="cellWidth" [width]="width">
+                      <div class="carousel-cell" *ngFor="let pic of propertyPhotoList">
+                        <img src="{{ pic?.photoUrl }}" (click)="displayImage(pic?.photoUrl)" />
+                      </div>
+                    </carousel>
+                  </div>
+                  <!-- class="xl:h-500 lg:h-500 md:h-380" -->
+                  <div id="map" class="mb-2" *ngIf="propertyPhotoList.length !== 0" style="height: 45%;">
+                    <google-map [height]="mapHeight" width="100%" [zoom]="zoom" [center]="center" [options]="options">
+                      <map-marker [position]="marker?.position" [label]="marker?.label" [title]="marker?.title"
+                        [options]="marker?.options">
+                      </map-marker>
+                      <!-- <map-info-window>{{ infoContent }}</map-info-window> -->
+                    </google-map>
+                  </div>
+                  <div id="map" *ngIf="propertyPhotoList.length === 0" style="height: 100%;">
+                    <google-map [height]="mapHeight" width="100%" [zoom]="zoom" [center]="center" [options]="options">
+                      <map-marker [position]="marker?.position" [label]="marker?.label" [title]="marker?.title"
+                        [options]="marker?.options">
+                      </map-marker>
+                      <!-- <map-info-window>{{ infoContent }}</map-info-window> -->
+                    </google-map>
+                  </div>
+                  <!-- class="xl:h-900 lg:h-900 md:h-600" -->
+                </div>
+                <div class="w-1/2 p-4">
+                  <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class="text-blueGray-400 text-2xl font-bold">
+                      Tenancy Details
+                    </h2>
+                    <div class="h-0 mt-2 border border-solid border-blueGray-400"></div>
+                  </div>
+                  <div class="mt-2 text-blueGray-400 text-md font-bold">
+                    Current Rent
+                  </div>
+                  <div class="mt-1 text-black font-bold">
+                    <span class="text-2xl">${{ propertyObj[1]?.currentRate }}</span><sub class="text-normal">pw</sub>
+                  </div>
+
+                  <div class="mt-8 text-blueGray-400 text-md font-bold">
+                    Rent Last Changed
+                  </div>
+                  <div class="mt-1 text-black text-md font-bold">
+                    {{ propertyObj[1]?.rentLastChanged | date: "shortDate" }}
+                  </div>
+                </div>
+              </div>
+              <div class="xl:w-4/12 lg:w-4/12 md:w-4/12 inline-block">
+                <span class="
+                    relative
+                    flex flex-col
+                    min-w-0
+                    break-words
+                    ml-3
+                    bg-white
+                    w-full
+                    shadow-lg
+                    rounded
+                    min-h-screen-85
+                    max-h-screen-85
+                  ">
+                  <div class="rounded-t mb-0 px-4 py-4 bg-transparent">
+                    <div class="flex flex-wrap items-center">
+                      <div class="relative w-full max-w-full flex-grow flex-1">
+                        <h2 class="text-blueGray-400 text-2xl font-bold pt-3">
+                          Activity
+                        </h2>
+                        <div class="
+                            h-0
+                            mt-2
+                            border border-solid border-blueGray-200
+                          "></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pl-4 pr-2 pt-1 pb-4 flex-auto overflow-y-auto">
+                    <div class="relative">
+                      <span *ngFor="let act of activityList; let i = index">
+                        <div class="flex flex-row">
+                          <span class="flex flex-col pt-2 mr-3">
+                            <i class="fas fa-history" style="color: darkslategray"></i>
+                            <!-- <div class="w-0 border border-solid my-2 h-full border-dlueGray-100"></div> -->
+                          </span>
+                          <span class="flex flex-col">
+                            <div class="text-blueGray-700 text-lg font-semibold">
+                              {{ act?.title }}
+                            </div>
+                            <div class="
+                                uppercase
+                                text-blueGray-400 text-sm
+                                font-medium
+                              " style="color: #06c4af">
+                              {{ act?.activityTypeLabel }}
+                            </div>
+                            <div class="text-blueGray-400 text-xs font-normal">
+                              {{ act?.activityDate | date: "longDate" }}
+                            </div>
+                            <div class="text-blueGray-400 text-sm font-normal">
+                              {{ act?.message }}
+                            </div>
+                          </span>
+                        </div>
+                        <div class="
+                            h-0
+                            my-2
+                            mx-4
+                            border border-solid border-blueGray-100
+                          " *ngIf="i !== activityList.length - 1"></div>
+                      </span>
+                      <div class="text-center" *ngIf="activityList?.length === 0">
+                        <span class="text-blueGray-700 font-xl">No records found</span>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </div>
+            <div [ngClass]="{ hidden: openTab !== 2, flex: openTab === 2 }">
+              <div class="
+                  xl:w-8/12
+                  lg:w-8/12
+                  md:w-8/12
+                  inline-block
+                  bg-white
+                  shadow-lg
+                  rounded
+                  min-h-screen-85
+                  max-h-screen-85
+                ">
+                <div class="relative pl-4 pr-4 pt-4 w-full max-w-full">
+                  <h2 class="text-blueGray-400 text-2xl font-bold">
+                    Tenancy Details
+                  </h2>
+                  <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+                </div>
+                <div class="flex min-h-screen-85">
+                  <div class="
+                      p-4
+                      border-solid border-r-3 border-blueGray-300
+                      w-1/2
+                    " style="max-height: 77vh;">
+                    <div class="mt-2 text-blueGray-400 text-md font-bold">
+                      Tenancy Name
+                    </div>
+                    <div class="mt-1 text-black text-md font-bold">
+                      {{ propertyObj[1]?.accName }}
+                    </div>
+                    <div class="mt-8 text-blueGray-400 text-md font-bold">
+                      Tenants
+                    </div>
+                    <div class="mt-1" *ngFor="let tenant of propertyObj[1]?.tenants">
+                      <div class="text-black text-md font-bold">
+                        {{ tenant?.name }}
+                      </div>
+                    </div>
+                    <div class="mt-8 text-blueGray-400 text-md font-bold">
+                      Tenancy Type
+                    </div>
+                    <div class="mt-1 text-black text-md font-bold">
+                      {{ propertyObj[1]?.tenancyTypeLabel }}
+                    </div>
+                    <div class="flex mt-8">
+                      <div class="w-1/2">
+                        <div class="text-blueGray-400 text-md font-bold">
+                          Start Date
+                        </div>
+                        <div class="mt-1 text-black text-md font-bold">
+                          {{ propertyObj[1]?.startDate | date: "shortDate" }}
+                        </div>
+                      </div>
+                      <div class="w-1/2">
+                        <div class="text-blueGray-400 text-md font-bold">
+                          End Date
+                        </div>
+                        <div class="mt-1 text-black text-md font-bold">
+                          {{ propertyObj[1]?.endDate | date: "shortDate" }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-1/2 p-4">
+                    <div class="mt-2 text-blueGray-400 text-md font-bold">
+                      Current Rent
+                    </div>
+                    <div class="mt-1 text-black font-bold">
+                      <span class="text-3xl">${{ propertyObj[1]?.currentRate }}</span><sub class="text-normal">pw</sub>
+                    </div>
+
+                    <div class="mt-8 text-blueGray-400 text-md font-bold">
+                      Rent Last Changed
+                    </div>
+                    <div class="mt-1 text-black text-md font-bold">
+                      {{ propertyObj[1]?.rentLastChanged | date: "shortDate" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="xl:w-4/12 lg:w-4/12 md:w-4/12 inline-block">
+                <div class="
+                    relative
+                    flex flex-col
+                    min-w-0
+                    break-words
+                    ml-3
+                    bg-white
+                    w-full
+                    shadow-lg
+                    rounded
+                    min-h-screen-85
+                    max-h-screen-85
+                  ">
+                  <div class="rounded-t mb-0 px-4 py-4 bg-transparent">
+                    <div class="flex flex-wrap items-center">
+                      <div class="relative w-full max-w-full flex-grow flex-1">
+                        <h2 class="text-blueGray-400 text-2xl font-bold">
+                          Tenancy Documents
+                        </h2>
+                        <div class="
+                            h-0
+                            mt-2
+                            border border-solid border-blueGray-200
+                          "></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="
+                      pl-4
+                      pr-2
+                      pt-1
+                      pb-4
+                      flex-auto
+                      overflow-y-auto
+                    min-h-screen-85
+                    max-h-screen-85
+                    ">
+                    <div class="relative">
+                      <span *ngFor="let doc of tenantDocumentList; let i = index">
+                        <div class="flex w-full">
+                          <!--<span class="flex flex-col pt-2 mr-3">
+                                                        <i class="fas fa-history" style="color: darkslategray;"></i>
+                                                         <div class="w-0 border border-solid my-2 h-full border-dlueGray-100"></div> 
+                                                    </span>-->
+                          <div class="flex flex-col break-words xl:w-8/12 lg:w-8/12 md:w-8/12">
+                            <div class="text-blueGray-700 text-lg font-bold">
+                              {{ doc?.name }}
+                            </div>
+                            <div class="text-blueGray-400 text-sm font-normal">
+                              {{ doc?.createdOn | date: "shortDate" }}
+                            </div>
+                            <!--<div class="text-blueGray-400 text-sm font-normal">
+                                                            {{act?.message}}
+                                                        </div> -->
+                          </div>
+                          <div class="mt-2 mr-2 xl:w-4/12 lg:w-4/12 md:w-4/12 text-right">
+                            <a target="_blank" rel="noopener noreferrer" [href]="doc?.docUrl" [download]="doc?.docUrl"
+                              target="_blank" class="mx-4">
+                              <i class="fas fa-download" style="color: teal"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="
+                            h-0
+                            my-2
+                            mx-4
+                            border border-solid border-blueGray-100
+                          " *ngIf="i !== activityList.length - 1"></div>
+                      </span>
+                      <div class="text-center" *ngIf="tenantDocumentList?.length === 0">
+                        <span class="text-blueGray-700 font-xl">No records found</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div [ngClass]="{ hidden: openTab !== 3, block: openTab === 3 }">
+              <div class="relative bg-transparent pb-4">
+                <div class="mx-auto w-full">
+                  <div class="flex flex-wrap">
+                    <div class="w-full">
+                      <div class="
+                          relative
+                          flex flex-col
+                          min-w-0
+                          break-words
+                          bg-white
+                          rounded
+                          mb-6
+                          xl:mb-0
+                          shadow-lg
+                        ">
+                        <div class="flex-auto p-4">
+                          <div class="relative">
+                            <div class="flex w-full">
+                              <div class="mx-auto">
+                                <div class="
+                                    text-blueGray-400 text-md
+                                    font-semibold
+                                  ">
+                                  Last Inspection
+                                </div>
+                                <div class="text-blueGray-700 text-3xl font-bold">
+                                  {{
+                                  propertyObj[0]?.lastInspectionDate
+                                  | date: "shortDate"
+                                  }}
+                                </div>
+                              </div>
+                              <div class="mx-auto">
+                                <div class="
+                                    text-blueGray-400 text-md
+                                    font-semibold
+                                  ">
+                                  Next Inspection
+                                </div>
+                                <div class="text-blueGray-700 text-3xl font-bold">
+                                  {{
+                                  propertyObj[0]?.nextInspectionDate
+                                  | date: "shortDate"
+                                  }}
+                                </div>
+                              </div>
+                              <div class="mx-auto">
+                                <div class="
+                                    text-blueGray-400 text-md
+                                    font-semibold
+                                  ">
+                                  Inspection Frequency
+                                </div>
+                                <div class="text-blueGray-700 text-3xl font-bold" *ngIf="
+                                    propertyObj[0]?.inspectionFrequencyLabel !==
+                                    null
+                                  ">
+                                  {{ propertyObj[0]?.inspectionFrequencyLabel }}
+                                </div>
+                                <div class="
+                                    text-blueGray-700 text-3xl
+                                    font-bold
+                                    text-center
+                                  " *ngIf="
+                                    propertyObj[0]?.inspectionFrequencyLabel ===
+                                    null
+                                  ">
+                                  -
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <div class="flex-row w-full overflow-y-auto">
+                                                </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full inline-block">
+                <div class="
+                    relative
+                    flex flex-col
+                    min-w-0
+                    break-words
+                    mt-3
+                    bg-white
+                    w-full
+                    shadow-lg
+                    rounded
+                    min-h-screen-85
+                    max-h-screen-85
+                  ">
+                  <div class="rounded-t mb-0 px-4 py-4 bg-transparent">
+                    <div class="flex flex-wrap items-center">
+                      <div class="relative w-full max-w-full flex-grow flex-1">
+                        <h2 class="text-blueGray-400 text-2xl font-bold">
+                          Inspections
+                        </h2>
+                        <div class="
+                            h-0
+                            mt-2
+                            border border-solid border-blueGray-200
+                          "></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pl-4 pr-2 pt-1 pb-4 flex-auto overflow-y-auto mx-4">
+                    <div class="relative" style="height: 400px">
+                      <div *ngFor="let ins of inspectionList; let i = index">
+                        <div class="w-full">
+                          <button class="
+                              accordion
+                              text-blueGray-700 text-xl
+                              font-bold
+                            " (click)="toggleAccordian($event, i)">
+                            <span class="mr-4">
+                              <i class="fas fa-chevron-right pr-4" *ngIf="!ins.isActive"
+                                style="color: darkslategray"></i>
+                              <i class="fas fa-chevron-down pr-4" *ngIf="ins.isActive" style="color: darkslategray"></i>
+                            </span>
+                            <span class="pl-4">
+                              {{ ins?.inspectionTypeLabel }}
+                            </span>
+                          </button>
+                          <div id="{{ i }}" class="panel flex mb-4" hide="!ins.isActive">
+                            <div class="
+                                mt-1
+                                text-blueGray-400
+                                xl:w-9/12
+                                lg:w-9/12
+                                md:w-9/12
+                                break-words
+                              " style="padding-left: 72px">
+                              <div class="text-md font-semibold">Summary</div>
+                              <div class="text-sm font-medium">
+                                {{ ins?.description }}
+                              </div>
+                            </div>
+                            <div class="xl:w-3/12 lg:w-3/12 md:w-3/12 relative text-right mr-4">
+                              <div class="text-blueGray-800 text-lg font-bold">
+                                {{
+                                ins?.propertyInspectionDate | date: "longDate"
+                                }}
+                              </div>
+                              <a type="button" class="
+                                  bg-transparent
+                                  text-teal-500
+                                  border
+                                  mt-2
+                                  text-xl
+                                  font-bold
+                                " style="border-color: teal; border-width: 2px" [href]="ins?.reportLink"
+                                [download]="ins?.reportLink" rel="noopener noreferrer" target="_blank"><span
+                                  class="p-2">Report</span></a>
+                              <!-- <div class="text-blueGray-400 text-sm font-normal">
+                                                                {{ins?.message}}
+                                                            </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="text-center" *ngIf="inspectionList?.length === 0">
+                        <span class="text-blueGray-700 font-xl">No records found</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div [ngClass]="{ hidden: openTab !== 4, block: openTab === 4 }">
+              <div class="w-full inline-block">
+                <div class="
+                    relative
+                    flex flex-col
+                    min-w-0
+                    break-words
+                    ml-3
+                    bg-white
+                    w-full
+                    shadow-lg
+                    rounded
+                    min-h-screen-85
+                    max-h-screen-85
+                  ">
+                  <div class="rounded-t mb-0 px-4 py-4 bg-transparent">
+                    <div class="flex flex-wrap items-center">
+                      <div class="relative w-full max-w-full flex-grow flex-1">
+                        <h2 class="text-blueGray-400 text-2xl font-bold">
+                          Activity
+                        </h2>
+                        <div class="
+                            h-0
+                            mt-2
+                            border border-solid border-blueGray-200
+                          "></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="relative min-h-screen-85 max-h-screen-75">
+                    <div class="pl-32 pr-2 pt-1 pb-4 flex-auto overflow-y-auto" *ngIf="activityList.length !== 0">
+                      <span *ngFor="let act of activityList; let i = index">
+                        <div class="flex flex-row">
+                          <span class="flex flex-col pt-2 mr-3">
+                            <i class="fas fa-history" style="color: darkslategray"></i>
+                            <!-- <div class="w-0 border border-solid my-2 h-full border-dlueGray-100"></div> -->
+                          </span>
+                          <span class="flex flex-col">
+                            <div class="text-blueGray-700 text-lg font-semibold">
+                              {{ act?.title }}
+                            </div>
+                            <div class="
+                                uppercase
+                                text-blueGray-400 text-sm
+                                font-medium
+                              " style="color: #06c4af">
+                              {{ act?.activityTypeLabel }}
+                            </div>
+                            <div class="text-blueGray-400 text-xs font-normal">
+                              {{ act?.activityDate | date: "longDate" }}
+                            </div>
+                            <div class="text-blueGray-400 text-sm font-normal">
+                              {{ act?.message }}
+                            </div>
+                          </span>
+                        </div>
+                        <div class="
+                            h-0
+                            my-2
+                            mx-4
+                            border border-solid border-blueGray-100
+                          " *ngIf="i !== activityList.length - 1"></div>
+                      </span>
+                    </div>
+                    <div class="pl-4 pt-1 text-center" *ngIf="activityList?.length === 0">
+                      <span class="text-blueGray-700 font-xl">No records found</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

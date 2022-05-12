@@ -1,0 +1,131 @@
+<div class="flex flex-wrap">
+  <div class="w-full xl:w-8/12 lg:w-8/12 md:w-8/12 mb-12 xl:mb-0 px-4">
+    <!-- <app-card-line-chart></app-card-line-chart> -->
+    <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
+      <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+        <div class="flex flex-wrap items-center">
+          <div class="relative w-full max-w-full flex-grow flex-1">
+            <h2 class="text-blueGray-500 text-2xl font-bold">Summary</h2>
+            <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+          </div>
+        </div>
+      </div>
+      <div class="px-4 pt-1 pb-4 flex-row w-full overflow-y-auto">
+        <div class="relative min-h-screen-75 max-h-screen-75">
+          <div class="cursor-pointer" *ngFor="let acc of accountList; let i = index" (click)="showProperty(acc)">
+            <div class="flex w-full">
+              <div class=" mr-3" style="width: 20%;">
+                <!-- <i class="fas fa-history" style="color: darkslategray;"></i> -->
+                <div *ngIf="acc?.photos.length !== 0">
+                  <img class="md:w-48 md:h-1/5 rounded-lg mx-auto" src="{{ acc?.photos[0].photoUrl }}" alt=""
+                    width="150" height="150">
+                </div>
+                <div *ngIf="acc?.photos.length === 0">
+                  <img class="md:w-48 md:h-1/5 rounded-lg mx-auto border border-solid border-2" src="assets/img/no-image-found.png" alt="" width="140"
+                    height="150">
+                </div>
+                <!-- <div class="w-0 border border-solid my-2 h-full border-dlueGray-100"></div> -->
+              </div>
+              <div class="break-words" style="width: 30%;">
+                <div class="text-blueGray-700 text-2xl" style="font-weight: 800;">
+                  {{acc?.address}}, {{acc?.addressLine2}}<span *ngIf="acc?.addressLine2 != null">, </span>
+                  {{acc?.city}}, {{acc?.state}},
+                  {{acc?.country}}
+                </div>
+                <div class="text-blueGray-500 text-xs mt-1 font-normal">
+                  {{acc?.propertyID}}
+                </div>
+              </div>
+              <div style="width: 50%;">
+                <div class="text-center lg:text-right">
+                  <span class="rounded-full py-1 px-3 bg-transparent border border-2 border-solid text-blueGray-800 mr-4 inline-block"
+                    *ngIf="acc?.propertyTypeLabel === 'House'">
+                    <i class="fas fa-home"></i> {{acc?.propertyTypeLabel}}
+                  </span>
+                  <span class="rounded-full py-1 px-3 bg-transparent border border-2 border-solid text-blueGray-800 mr-4 inline-block"
+                    *ngIf="acc?.propertyTypeLabel === 'Apartment'">
+                    <i class="fas fa-building"></i> {{acc?.propertyTypeLabel}}
+                  </span>
+                  <span class="rounded-full py-1 px-3 bg-emerald-200 text-emerald-800 font-bold inline-block"
+                    *ngIf="acc?.tenanted === true">Rented</span>
+                  <span class="rounded-full py-1 px-3 bg-blueGray-100 text-blueGray-800 font-bold inline-block"
+                    *ngIf="acc?.tenanted !== true">Available</span>
+                </div>
+                  <div class="mt-10 text-center lg:text-right">
+                    <span class="rounded-full py-1 px-3 bg-transparent border border-2 border-solid text-blueGray-800 mr-1 inline-block">
+                      {{acc?.city}}
+                    </span>
+                    <span class="rounded-full py-1 px-3 bg-transparent border border-2 border-solid text-blueGray-800 mr-1 inline-block">
+                      <span *ngIf="acc?.bedRoom !== null && acc?.bedRoom != 0">
+                        <i class="fas fa-bed"></i> {{acc?.bedRoom}} Beds      
+                      </span>
+                      <span *ngIf="acc?.bedRoom === null || acc?.bedRoom == 0">
+                        <i class="fas fa-bed"></i> 0 Beds
+                      </span>
+                    </span>
+                    <span class="rounded-full py-1 px-3 bg-transparent border border-2 border-solid text-blueGray-800 inline-block">
+                      <span *ngIf="acc?.bathRoom !== null && acc?.bathRoom != 0">
+                        <i class="fas fa-bath"></i> {{acc?.bathRoom}} Baths
+                      </span>
+                      <span *ngIf="acc?.bathRoom === null || acc?.bathRoom == 0">
+                      <i class="fas fa-bath"></i> 0 Baths
+                      </span>
+                    </span>
+                  </div>
+              </div>
+            </div>
+            <div class="h-0 my-4 mx-4 border border-solid border-blueGray-100">
+            </div>
+          </div>
+          <div class="text-center" *ngIf="accountList?.length === 0">
+            <span class="text-blueGray-700 font-xl">No records found</span> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full xl:w-4/12 lg:w-4/12 md:w-4/12 px-4 h-full">
+    <!-- <app-card-bar-chart></app-card-bar-chart> -->
+    <div class="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded">
+      <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+        <div class="flex flex-wrap items-center">
+          <div class="relative w-full max-w-full flex-grow flex-1">
+            <h2 class="text-blueGray-500 text-2xl font-bold">Activity</h2>
+            <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+          </div>
+        </div>
+      </div>
+      <div class="px-4 pt-1 pb-4 flex-auto overflow-y-auto">
+        <div class="relative min-h-screen-75 max-h-screen-75">
+          <span *ngFor="let act of activityList; let i = index">
+            <div class="flex flex-row">
+              <span class="flex flex-col pt-2 mr-3">
+                <i class="fas fa-history" style="color: darkslategray;"></i>
+                <!-- <div class="w-0 border border-solid my-2 h-full border-dlueGray-100"></div> -->
+              </span>
+              <span class="flex flex-col">
+                <div class="text-blueGray-700 text-lg font-semibold">
+                  {{act?.title}}
+                </div>
+                <div class="uppercase text-blueGray-500 text-sm font-medium" style="color: #06c4af;">
+                  {{act?.activityTypeLabel}}
+                </div>
+                <div class="text-blueGray-500 text-xs font-normal">
+                  {{act?.activityDate | date:'longDate'}}
+                </div>
+                <div class="text-blueGray-400 text-sm font-normal">
+                  {{act?.message}}
+                </div>
+              </span>
+            </div>
+            <div class="h-0 my-2 mx-4 border border-solid border-blueGray-100" *ngIf="i !== (activityList.length - 1)">
+            </div>
+          </span>
+          <div class="text-center" *ngIf="activityList?.length === 0">
+            <span class="text-blueGray-700 font-xl">No records found</span> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.text-right {
+    text-align: right;
+}
+
+.text-blueGray-400 {
+    --tw-text-opacity: 1;
+    color: rgba(148, 163, 184, var(--tw-text-opacity));
+}
+
+.text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem;
+}

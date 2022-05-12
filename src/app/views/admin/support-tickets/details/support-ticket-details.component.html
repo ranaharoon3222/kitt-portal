@@ -1,0 +1,264 @@
+<!-- Spinner -->
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out">
+    <br />
+    <p style="font-size: 20px; color: #05adad; font-weight: bold">Loading...</p>
+</ngx-spinner>
+
+<!-- Modal -->
+<div *ngIf="showModalFlag"
+    class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex">
+    <div class="relative w-auto my-6 mx-auto max-w-3xl" style="width: 48rem;">
+        <!--content-->
+        <div
+            class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+            <!--header-->
+            <div
+                class="flex items-start justify-between p-5 border-b border-solid bg-blueGray-100 border-blueGray-200 rounded-t">
+                <h3 class="text-3xl font-semibold">
+                    Write a comment
+                </h3>
+                <button
+                    class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    (click)="modalCloseButton()">
+                    <span
+                        class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                    </span>
+                </button>
+            </div>
+            <!--body-->
+            <div class="relative p-6 flex-auto">
+                <form [formGroup]="commentsForm" #commentsNgForm="ngForm">
+                    <div class="relative w-full mb-3">
+                        <label class="block uppercase text-teal-500 text-lg font-bold mb-2" htmlFor="grid-password">
+                            Subject <span class="text-red-500">*</span>
+                        </label>
+
+                        <input type="text" [formControlName]="'subject'"
+                            class="border-0 px-3 py-3 bg-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Subject" />
+                        <span class="text-red-500"
+                            *ngIf="formCtrl.subject.touched && formCtrl.subject.invalid ||formCtrl.subject.errors && commentsFormSubmitted">
+                            <small *ngIf="formCtrl.subject.errors.required">Subject is Required</small>
+                        </span>
+                    </div>
+
+                    <div class="relative w-full mb-3">
+                        <label class="block uppercase text-teal-500 text-lg font-bold mb-2" htmlFor="grid-password">
+                            Summary <span class="text-red-500">*</span>
+                        </label>
+
+                        <div>
+                            <textarea type="text" [formControlName]="'description'"
+                                class="border-0 px-3 py-3 bg-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                placeholder="Description" cols="30" rows="5">
+
+                            </textarea>
+
+                        </div>
+                        <div class="text-red-500"
+                            *ngIf="formCtrl.description.touched && formCtrl.description.invalid ||formCtrl.description.errors && commentsFormSubmitted">
+                            <small *ngIf="formCtrl.description.errors.required">Description is required.</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--footer-->
+            <div
+                class="flex items-center justify-end p-6 bg-blueGray-100 border-t border-solid border-blueGray-200 rounded-b">
+                <button
+                    class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button" (click)="modalCloseButton()">
+                    Close
+                </button>
+                <button
+                    class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button" (click)="submitComment()">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="showModalFlag" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+
+<!-- Page -->
+<div class="mb-12">
+    <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
+        <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+            <!-- <div class="flex flex-wrap items-center">
+                <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class="text-blueGray-500 text-2xl font-bold">Support Ticket</h2>
+                    <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+                </div>
+            </div> -->
+            <div class="flex flex-wrap items-center">
+                <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class="text-blueGray-400 text-2xl font-bold">Support Ticket</h2>
+                </div>
+                <div class="float-right">
+                    <span class="float-right mr-4">
+                        <!-- Status Active -->
+                        <div class="rounded-full py-1 px-3 bg-lightBlue-200 text-indigo-600 text-normal font-semibold text-right"
+                            *ngIf="caseObj?.status === 0">
+                            {{ caseObj?.statusLabel }}
+                        </div>
+                        <!-- Status Resolved -->
+                        <div class="rounded-full py-1 px-3 bg-emerald-200 text-blueGray-800 text-normal font-semibold text-right"
+                            *ngIf="caseObj?.status === 1">
+                            {{ caseObj?.statusLabel }}
+                        </div>
+                        <!-- Status Cancelled -->
+                        <div class="rounded-full py-1 px-3 bg-red-200 text-red-500 text-normal font-semibold text-right"
+                            *ngIf="caseObj?.status === 2">
+                            {{ caseObj?.statusLabel }}
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="relative w-full max-w-full flex-grow flex-1">
+                <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+            </div>
+        </div>
+        <div class="px-4 pt-1 pb-4 flex-row flex-grow flex-1 w-full overflow-y-auto">
+            <div class="relative min-h-screen-30 max-h-screen-30 flex">
+                <!-- <div class="break-words xl:w-10/12 lg:w-10/12 md:w-10/12 w-full max-w-full"> -->
+                <div
+                    class="break-words xl:w-8/12 lg:w-8/12 md:w-8/12 w-full max-w-full border-r border-solid border-blueGray-300">
+                    <div class="text-blueGray-400 text-xl font-bold">
+                        Case Title
+                    </div>
+                    <div class="text-blueGray-700 text-xl font-bold" *ngIf="caseObj?.caseTitle !== null">{{
+                        caseObj?.caseTitle }}
+                    </div>
+                    <div class="text-blueGray-700 text-xl font-semibold" *ngIf="caseObj?.caseTitle === null">-
+                    </div>
+
+                    <div class="mt-8">
+                        <div class="text-blueGray-400 text-xl font-bold">
+                            Summary
+                        </div>
+                        <div class="text-blueGray-600 text-lg font-normal" *ngIf="caseObj?.description !== null">{{
+                            caseObj?.description }}
+                        </div>
+                        <div class="text-blueGray-600 text-lg font-bold" *ngIf="caseObj?.description === null">-
+                        </div>
+                    </div>
+                </div>
+                <div class="pl-10 break-words xl:w-4/12 lg:w-4/12 md:w-4/12 w-full max-w-full pb-4">
+                    <div class="text-blueGray-400 text-xl font-bold">
+                        Property
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-bold" *ngIf="caseObj?.caseTitle !== null">{{
+                        caseObj?.rentalPropToCase?.name }}
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-semibold" *ngIf="caseObj?.caseTitle === null">-
+                    </div>
+
+                    <div class="mt-6 text-blueGray-400 text-xl font-bold">
+                        Case Created
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-bold" *ngIf="caseObj?.caseTitle !== null">{{
+                        caseObj?.createdOn | date:'dd/MM/YYYY' }}
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-semibold" *ngIf="caseObj?.caseTitle === null">-
+                    </div>
+
+                    <div class="mt-6 text-blueGray-400 text-xl font-bold">
+                        Last Updated
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-bold" *ngIf="caseObj?.caseTitle !== null">{{
+                        caseObj?.modifiedOn | date:'dd/MM/YYYY' }}
+                    </div>
+                    <div class="text-blueGray-600 text-xl font-semibold" *ngIf="caseObj?.caseTitle === null">-
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded pb-4">
+        <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+            <div class="flex flex-wrap items-center">
+                <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class="text-blueGray-400 text-2xl font-bold">Timeline</h2>
+                </div>
+                <div class="text-white px-4 py-1 mr-4 bg-orange-500 text-xl font-bold float-right rounded-lg cursor-pointer"
+                    (click)="showModal()" title="Add Comment">
+                    <button>
+                        <span class="mr-2">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text-xl font-bold">
+                            Add Comment
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative w-full max-w-full flex-grow flex-1">
+                <div class="h-0 mt-2 border border-solid border-blueGray-200"></div>
+            </div>
+        </div>
+        <div class="px-4 pt-1 pb-4 flex-auto overflow-y-auto">
+            <div class="relative min-h-screen-40 max-h-screen-40">
+                <span *ngFor="let comm of commentList; let i = index">
+                    <div class="flex flex-row">
+                        <div class="break-words pb-4 xl:w-2/12 lg:w-2/12 md:w-2/12">
+                            <div class="flex flex-col pt-1 ml-2" *ngIf="comm?.activityType ==='adx_portalcomment'">
+                                <i class="fas fa-comment fa-lg" style="color: darkslategray;"></i>
+                            </div>
+                            <div class="flex flex-col pt-1 ml-2" *ngIf="comm?.activityType ==='email'">
+                                <i class="fas fa-envelope fa-lg" style="color: darkslategray;"></i>
+                            </div>
+                            <div class="flex flex-col pt-1 ml-2" *ngIf="comm?.activityType ==='task'">
+                                <i class="fas fa-tasks fa-lg" style="color: darkslategray;"></i>
+                            </div>
+                            <div class="flex flex-col pt-1 ml-2" *ngIf="comm?.activityType ==='phonecall'">
+                                <i class="fas fa-phone-alt fa-lg" style="color: darkslategray;"></i>
+                            </div>
+                            <div class="pt-1 ml-2">
+                                {{comm?.dateCreated | timeAgoPipe}}
+                            </div>
+                            <div class="pt-1 mt-1 ml-2">
+                                Modified on - {{comm?.modifiedOn | date:'dd/MM/YYYY hh:mm aaa'}}
+                            </div>
+
+                        </div>
+                        <div class="pl-10 xl:w-10/12 lg:w-10/12 md:w-10/12 mr-2 ">
+                            <div class="pt-2" >
+                                <div class="flex" *ngIf="comm?.activityType !=='task'">
+                                    <div class="text-blueGray-700 text-lg font-semibold mr-2">
+                                        {{comm?.from?.name}}
+                                    </div>
+                                    <div class="pt-1">
+                                        <i class="fas fa-long-arrow-alt-right fa-lg"></i>
+                                    </div>
+                                    <div class="text-blueGray-700 text-lg font-semibold ml-2">
+                                        {{comm?.to?.name}}
+                                    </div>
+                                </div>
+                                <div class="text-blueGray-500 text-md font-medium">
+                                    {{comm?.subject}}
+                                </div>
+                                <div class="mt-2" [innerHtml]="comm?.description" *ngIf="comm?.activityType ==='email'">
+                                </div>
+                                <div *ngIf="comm?.activityType ==='task'">
+                                    {{comm?.description}}
+                                </div>
+                                <div class="mt-2 text-blueGray-500 text-md font-medium border p-3" *ngIf="comm?.activityType !=='email'">
+                                    Created by - {{comm?.createdBy?.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-0 my-2 mx-4 border border-solid border-blueGray-100"
+                        *ngIf="i !== (commentList.length - 1)">
+                    </div>
+                </span>
+                <div class="text-center" *ngIf="commentList?.length === 0">
+                    <span class="text-blueGray-700 font-xl">No records found</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

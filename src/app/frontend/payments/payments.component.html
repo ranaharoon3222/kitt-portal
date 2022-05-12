@@ -1,0 +1,52 @@
+<ngx-spinner bdColor="rgba(237, 238, 240, 1)" size="medium" color="#05adad" type="line-scale-pulse-out" [fullScreen]="true">
+    <p style="font-size: 20px; color: #05adad; font-weight:bold">Loading...</p>
+</ngx-spinner>
+
+<!-- Inspections Tab -->
+<div id="Inspections">
+    <div class="w-full bg-white shadow-md md:w-2/3">
+        <div class="flex flex-wrap items-center px-5 py-5 border-b-[1px] border-gray-300">
+            <div class="w-[55%]">
+                <h1 class="text-lg font-bold text-secondary">Payments</h1>
+            </div>
+            <!-- <div class="w-[45%] font-bold text-secondary flex justify-end">
+                <div class="w-full dropdown dropdown-end dropdown-hover max-w-[145px]">
+                    <div tabindex="0" class="px-2 py-1 border-2 border-accent-focus min-w-[110px] text-center flex items-center justify-center">
+                        <span class="mr-1 text-lg material-icons">
+                            filter_alt
+                        </span> Filter <span class="w-5 h-5 ml-1 text-xs rounded-md text-secondary bg-accent-focus leading-[1.55] ">3</span>
+                        <span class="ml-1 material-icons">expand_more</span>
+                    </div>
+                    <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-52">
+                        <li>
+                            <a>Item 1</a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+
+        <div class="px-6 py-6">
+            <!-- start acordian -->
+            <div class="border-b-2 border-gray-200 collapse collapse-arrow" *ngFor="let pay of paymentsList; let i = index">
+                <input type="checkbox" class="z-10">
+                <div class="md:text-xl !bg-white text-secondary-focus collapse-title md:pl-20 pl-10 font-bold flex justify-between pr-0 ">
+                    {{pay?.name}}
+                    <span class="font-bold text-right md:text-xl"> 
+                        {{pay?.paymentAmount | currency: 'NZD':'symbol-narrow'}} <br />
+                        <span class="block text-sm font-medium text-gray-400">
+                            {{pay?.paymentDate | date:'longDate'}}
+                        </span>
+                    </span>
+                </div>
+                <div class="!bg-white collapse-content md:pl-20 pr-0">
+                    <div class="w-full pt-4 md:pl-4">
+                        <a fileSaver [href]="pay?.statementFile" [download]="pay?.statementFile" rel="noopener noreferrer" target="_blank" class="block max-w-[8rem] p-3 px-1 font-bold text-center border rounded-lg md:ml-auto border-primary text-primary">Statement</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end acordian -->
+        </div>
+    </div>
+</div>
+<!-- End Inspections Tab -->
